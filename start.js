@@ -140,15 +140,18 @@ io.on("connection", (socket) => {
               const random = Math.floor(Math.random() * result.length);
               const finalAns=result[random];
             
-
+              //Give winner users that amount
               for (let userId of Object.keys(userBet)){
                 if(userBet[userId].betType===finalAns){
-
+                  
                 }
                 else if((finalAns>=0 && finalAns<5)&&userBet[userId].betType==="green"){
 
                 }
                 else if((finalAns>4 &&finalAns<10)&&userBet[userId].betType==="red"){
+
+                }
+                else if((finalAns===0 || finalAns===5)&&userBet[userId].betType==="blue"){
 
                 }
               }
