@@ -1,5 +1,5 @@
 const _ = require("lodash");
-
+const con=require("./db")
 const { io } = require("../server");
 
 let betTypes = [0,0,0,0,0,0,0,0,0,0]
@@ -10,122 +10,69 @@ let userBet={};
 //userId,betAmount,betType
 io.on("connection", (socket) => {
 
-  socket.on("placeBet", async ({ id,password, betType,betAmount }) => {
+  socket.join();
+  socket.on("placeBet", async ({ username,password, betType,betAmount }) => {
     if(startGame)
     { 
 
       //check user is exist or not 
-      //if exisat than deduct betAmount of the user balance
-
-      //store this value in user data
-    
-      let winAmount=0;
-
-      if(betType==="green"||betType==="red"||betType==="blue"){
-        switch (betType) {
-          case "green":
-            winAmount=betAmount*1.8;
-            for (let i=0;i<5;i++)
-               betTypes[i] +=winAmount;
-            break;
-          case "red":
-            winAmount=betAmount*1.8;
-            for (let i=5;i<10;i++)
-               betTypes[i] +=winAmount;
-            break;
-          case "blue":
-            winAmount=betAmount*45
-            betTypes[0] +=winAmount;
-            betTypes[5] +=winAmount;
-            break;        
-          default:
-            break;
+      con.connect();
+      await con.query("select * from user where username =? and password =?",[username,password],function(err,result){
+        if(result.amount<betAmount){
+          socket.emit("InSufficient Balance Please Deposit Amount..!")
         }
-
-      }
-      else
-      {
-        switch (betType) {
-        
-          case "0":
-            winAmount=betamount*9;
-            betTypes[0] +=winAmount;
-            break;
-          case "1":
-            winAmount=betamount*9;
-           betTypes[1] +=winAmount;
-            break;
-          case "2":
-            winAmount=betamount*9;
-           betTypes[2] +=winAmount;
-            break;
-          case "3":
-            winAmount=betamount*9;
-            betAmount[3]+=winAmount;
-            break;
-          case "4":
-            winAmount=betamount*9;
-            betAmount[4]+=winAmount;
-            break;
-          case "5":
-            winAmount=betamount*9;
-           betAmount[5]+=winAmount;
-            break;
-          case "6":
-            winAmount=betamount*9;
-            betAmount[6]+=winAmount;
-            break;
-          case "7":
-            winAmount=betamount*9;
-            betAmount[7]+=winAmount;
-            break;
-          case "8":
-            winAmount=betamount*9;
-            betAmount[8]+=winAmount;
-            break;
-          case "9":
-            winAmount=betamount*9;
-            betAmount[9]+=winAmount;
-            break;
+        else{
+          let winAmount=0;
+          let commission=betAmount>100?betAmount*2/100:2
   
-        
-          default:
-            break;
-        }
-
-      }
-
-
-
-    
-      userBet[id]={winAmount,betType}
       
+  
+        if(betType==="green"||betType==="red"||betType==="blue"){
+          switch (betType) {
+            case "green":
+              winAmount=(betAmount-commission)*2;
+              for (let i=0;i<5;i++)
+                 betTypes[i] +=winAmount;
+              break;
+            case "red":
+              winAmount=(betAmount-commission)*2;
+              for (let i=5;i<10;i++)
+                 betTypes[i] +=winAmount;
+              break;
+            case "blue":
+              winAmount=(betAmount-commission)*4
+              betTypes[0] +=winAmount;
+              betTypes[5] +=winAmount;
+              break;        
+            default:
+              break;
+          }
+  
+        }
+        else
+        {
+  
+          winAmount=(betamount-commission)*8;
+          betTypes[betType] +=winAmount;
+          
+        }
+          
+        userBet[id]={winAmount,betType}
 
+      });
     }
     else
     {
         socket.emit("stopbet","you can not remove any bet")
     }
+
+        }
+        
    
   });
 
 
-  socket.on("removeBet", async ({ id,password, betType,betAmount }) => {
-    if(startGame){
-      //Check user is exist or not
-      //Check user place that bet or not
-     for (const userId of Object.keys(userBet)){
-
-     }
-    }
-
-    else
-    {
-        socket.emit("stopbet","you can not remove any bet")
-    }
-   
-});
-
+  
 
   socket.on("disconnect", async() => {
    
@@ -136,6 +83,7 @@ io.on("connection", (socket) => {
         if(startGame){
             if(startTime+(1000*180)< new Date().getTime()){
               //check the total
+              
               const result=getMinKeys(betTypes);
               const random = Math.floor(Math.random() * result.length);
               const finalAns=result[random];
