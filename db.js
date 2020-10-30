@@ -4,7 +4,8 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "kraazy"
+  database: "kraazy",
+  multipleStatements: true
 });
 
 con.connect(function(err) {
@@ -12,6 +13,8 @@ con.connect(function(err) {
   console.log("Connected!");
 
 });
+
+
 con.end();
 
 module.exports=con

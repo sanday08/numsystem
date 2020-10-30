@@ -1,6 +1,26 @@
-const _ = require("lodash");
-const con=require("./db")
-const { io } = require("../server");
+
+
+const { io } = require("./server");
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "kraazy",
+  multipleStatements: true
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+
+});
+
+
+con.end();
+
 
 let betTypes = [0,0,0,0,0,0,0,0,0,0]
 let startGame=false;
@@ -11,64 +31,75 @@ let userBet={};
 io.on("connection", (socket) => {
 
   socket.join();
-  socket.on("placeBet", async ({ username,password, betType,betAmount }) => {
+  socket.on("placeBet",({ username,password, betType,betAmount }) => {
     if(startGame)
     { 
 
       //check user is exist or not 
       con.connect();
-      await con.query("select * from user where username =? and password =?",[username,password],function(err,result){
+    con.query("select * from user where username =? and password =?",[username,password],function(err,result){
+        if(!err){
         if(result.amount<betAmount){
           socket.emit("InSufficient Balance Please Deposit Amount..!")
         }
         else{
-          let winAmount=0;
-          let commission=betAmount>100?betAmount*2/100:2
-  
+          con.query("UPDATE customers SET amount =amount-?  where username =? and password =?",[betAmount,username,password],function(err,result){
+            if(err){
+              socket.emit("Error"+err.message());
+            }
+            else{
+              let winAmount=0;
+              let commission=betAmount>100?betAmount*2/100:2
       
-  
-        if(betType==="green"||betType==="red"||betType==="blue"){
-          switch (betType) {
-            case "green":
-              winAmount=(betAmount-commission)*2;
-              for (let i=0;i<5;i++)
-                 betTypes[i] +=winAmount;
-              break;
-            case "red":
-              winAmount=(betAmount-commission)*2;
-              for (let i=5;i<10;i++)
-                 betTypes[i] +=winAmount;
-              break;
-            case "blue":
-              winAmount=(betAmount-commission)*4
-              betTypes[0] +=winAmount;
-              betTypes[5] +=winAmount;
-              break;        
-            default:
-              break;
+          
+      
+            if(betType==="green"||betType==="red"||betType==="blue"){
+              switch (betType) {
+                case "green":
+                  winAmount=(betAmount-commission)*2;
+                  for (let i=0;i<5;i++)
+                     betTypes[i] +=winAmount;
+                  break;
+                case "red":
+                  winAmount=(betAmount-commission)*2;
+                  for (let i=5;i<10;i++)
+                     betTypes[i] +=winAmount;
+                  break;
+                case "blue":
+                  winAmount=(betAmount-commission)*4
+                  betTypes[0] +=winAmount;
+                  betTypes[5] +=winAmount;
+                  break;        
+                default:
+                  break;
+              }
+      
+            }
+            else
+            {
+      
+              winAmount=(betamount-commission)*8;
+              betTypes[betType] +=winAmount;
+              
+            }
           }
-  
-        }
-        else
-        {
-  
-          winAmount=(betamount-commission)*8;
-          betTypes[betType] +=winAmount;
-          
-        }
-          
-        userBet[id]={winAmount,betType}
+            userBet[id]={winAmount,betType}
+         })
 
-      });
-    }
+         
+          
+       
+
+      }}
+      else{
+        socket.emit("Error:"+err.message());
+      }}
+      );
+  }
     else
     {
-        socket.emit("stopbet","you can not remove any bet")
-    }
-
-        }
-        
-   
+        socket.emit("stopbet","you can not place any bet")
+    } 
   });
 
 
