@@ -30,8 +30,20 @@ let userBet={};
 //userId,betAmount,betType
 io.on("connection", (socket) => {
 
+  socket.on("join",({betCategory})=>{
+    con.connect();
+    con.query("SELECT * FROM bet_history where category=? ORDER BY created DESC LIMIT 10",[betCategory],function(err,result){
+      if(!err){
+       
+      }
+      else{
+        socket.to(socket.id).emit("Right now server is not connected try again later!")
+      }
+    });
+  })
+
   socket.join();
-  socket.on("placeBet",({ username,password, betType,betAmount }) => {
+  socket.on("placeBet",({ username,password, betType,betAmount,betCategory }) => {
     if(startGame)
     { 
 
@@ -47,7 +59,7 @@ io.on("connection", (socket) => {
             if(err){
               socket.emit("Error"+err.message());
             }
-            else{
+            else{            
               let winAmount=0;
               let commission=betAmount>100?betAmount*2/100:2
       
@@ -111,7 +123,7 @@ io.on("connection", (socket) => {
   });
 
   setInterval(() => {
-        if(startGame){
+        
             if(startTime+(1000*180)< new Date().getTime()){
               //check the total
               
@@ -134,11 +146,11 @@ io.on("connection", (socket) => {
 
                 }
               }
-
+              socket.emit("no",9);
 
                 startGame = true;
                 startTime = new Date().getTime();
-                
+               
               
 
             }
@@ -147,7 +159,7 @@ io.on("connection", (socket) => {
                 startTime = new Date().getTime();
                 socket.emit("stop","can not bet ")
             }
-        }
+      
   }, 1000);
 });
 
