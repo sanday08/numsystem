@@ -113,7 +113,7 @@ io.on("connection", (socket) => {
   });
 
   setInterval(() => {
-    if (startTime + (1000 * 18) < new Date().getTime()) {
+    if (startTime + (1000 * 180) < new Date().getTime()) {
       //check the total
       startTime = new Date().getTime();
       for (let betCategory of Object.keys(userBet)) {
