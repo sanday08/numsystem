@@ -11,11 +11,11 @@ var con = mysql.createConnection({
   database: "kraazy",
   multipleStatements: true
 });
-let betTypes = { blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], bcone: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+let betTypes = { blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
 let startGame = false;
 let startTime = new Date().getTime();
-let randomWinner = { blurs: -1, parity: -1, sapre: -1, bcone: -1 };
-let userBet = { blurs: [], parity: [], sapre: [], bcone: [] };
+let randomWinner = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
+let userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
 //userId,betAmount,betType
 io.on("connection", (socket) => {
   console.log("manu")
@@ -119,12 +119,12 @@ io.on("connection", (socket) => {
       for (let betCategory of Object.keys(userBet)) {
         const result = getMinKeys(betTypes[betCategory]);
         const random = Math.floor(Math.random() * result.length);
-        const finalAns = result[random];
+        randomWinner[betCategory] = result[random];
         //Give winner users that amount
         if (userBet[betCategory]) {
           for (let bet in userBet[betCategory]) {
             if (bet.betType === finalAns) {
-
+              //con.query("UPDATE user SET address = 'Canyon 123' WHERE address = 'Valley 345'")
             }
             else if ((finalAns >= 0 && finalAns < 5) && bet.betType === "green") {
 
@@ -137,14 +137,19 @@ io.on("connection", (socket) => {
             }
           }
         }
-        console.log("final number is", finalAns)
 
-        socket.emit(betCategory + "_no", finalAns);
       }
+      con.query("insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)", [randomWinner.blurs, Math.floor(Math.random() * 100000) + 100000, randomWinner.parity, Math.floor(Math.random() * 10000) + 10000, randomWinner.sapre, Math.floor(Math.random() * 10000) + 10000, randomWinner.bcon, Math.floor(Math.random() * 10000) + 10000], function (err, result) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          console.log(result);
+          socket.emit(result);
+        }
 
-
+      })
     }
-
   }, 1000);
 });
 
