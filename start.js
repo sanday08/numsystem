@@ -109,7 +109,7 @@ io.on("connection", (socket) => {
                           }
                           else {
 
-                            winAmount = (betamount - commission) * 8;
+                            winAmount = (betAmount - commission) * 8;
                             betTypes[betCategory][betType] += winAmount;
 
                           }
