@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
       if (err)
         io.to(socket.id).emit("error", { msg: "Error for get data" })
       else
-        io.to(socket.id).emit("join", { currentBet: result })
+        io.to(socket.id).emit("currentBet", { currentBet: result })
     })
   })
 
