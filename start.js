@@ -67,6 +67,7 @@ io.on("connection", (socket) => {
         }
         else {
           let userBalance = result[0].amount;
+          console.log(userBalance)
           if (userBalance >= betAmount) {
             io.to(socket.id).emit("error", { msg: "InSufficient Balance Please Deposit Amount..!" });
           }
