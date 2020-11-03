@@ -176,6 +176,7 @@ setInterval(() => {
     })
   }
   else if (startTime + (1000 * 150) < new Date().getTime()) {
+    console.log("startGame is false")
     startGame = false;
   }
 }, 1000);
