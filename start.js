@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
             io.to(socket.id).emit("error", { msg: "InSufficient Balance Please Deposit Amount..!" });
           }
           else {
-            con.query("UPDATE customers SET amount =amount-?  where id =? and pwd =?", [betAmount, id, password], function (err, result) {
+            con.query("UPDATE user SET amount =amount-?  where id =? and pwd =?", [betAmount, id, password], function (err, result) {
               if (err) {
                 io.to(socket.id).emit("error", { msg: "Error" + err.message });
               }
