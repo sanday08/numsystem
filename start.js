@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   console.log("manu")
 
 
-  socket.on("join", (userId) => {
+  socket.on("join", ({ userId }) => {
     console.log("sandip", startTime);
     con.query("SELECT amount FROM user where id=?", [userId], function (err, result) {
       if (!err) {
