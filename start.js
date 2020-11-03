@@ -57,6 +57,7 @@ io.on("connection", (socket) => {
 
 
   socket.on("placeBet", ({ id, password, betType, betAmount, betCategory }) => {
+    console.log("id:", id, "password:", password, "betType:", betType, "betAmount:", betAmount)
     if (startGame) {
       con.query("select * from user where id =? and pwd =?", [id, password], function (err, result) {
         if (err) {
