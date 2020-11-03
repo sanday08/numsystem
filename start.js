@@ -81,6 +81,7 @@ io.on("connection", (socket) => {
                     con.query("insert into user_bet_history ('user_id','amount','select','result','fee','delivery','status','category','bet_history_id') values (?,?,?,?,?,?,?,?,?)",
                       [id, betAmount, betType, -1, commission, 0, 0, betCategory, period], function (err, result) {
                         if (err) {
+                          console.log(err);
                           io.to(socket.id).emit("error", { msg: "Error" + err.message });
                         }
                         else {
