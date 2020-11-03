@@ -66,7 +66,8 @@ io.on("connection", (socket) => {
           io.to(socket.id).emit("error", { msg: "Error:" + err.message });
         }
         else {
-          if (result.amount < betAmount) {
+          let userBalance = result[0].amount;
+          if (userBalance >= betAmount) {
             io.to(socket.id).emit("error", { msg: "InSufficient Balance Please Deposit Amount..!" });
           }
           else {
@@ -116,10 +117,10 @@ io.on("connection", (socket) => {
 
                           }
                           userBet[betCategory].push({ winAmount, betType, id, period })
-
+                          io.to(socket.id).emit("placeBet", { userBalance: userBalance - betAmount, amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
                         }
                       })
-                    io.to(socket.id).emit("placeBet", { amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
+
                   }
                   else {
                     io.to(socket.id).emit("error", { msg: "Error" + err.message });
