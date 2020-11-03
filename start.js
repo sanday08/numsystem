@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
 
   socket.on("placeBet", ({ id, password, betType, betAmount, betCategory }) => {
     if (startGame) {
-      con.query("select * from user where id =? and password =?", [id, password], function (err, result) {
+      con.query("select * from user where id =? and pwd =?", [id, password], function (err, result) {
         if (err) {
           io.to(socket.id).emit("error", { msg: "Error:" + err.message });
         }
@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
             io.to(socket.id).emit("error", { msg: "InSufficient Balance Please Deposit Amount..!" });
           }
           else {
-            con.query("UPDATE customers SET amount =amount-?  where id =? and password =?", [betAmount, id, password], function (err, result) {
+            con.query("UPDATE customers SET amount =amount-?  where id =? and pwd =?", [betAmount, id, password], function (err, result) {
               if (err) {
                 io.to(socket.id).emit("error", { msg: "Error" + err.message });
               }
