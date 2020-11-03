@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
     console.log("sandip", startTime);
     con.query("SELECT amount FROM user where id=?", [userId], function (err, result) {
       if (!err) {
-        io.to(socket.id).emit("join", { betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
+        io.to(socket.id).emit("join", { userBalance: result[0].amount, betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
       }
 
     })
