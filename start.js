@@ -36,11 +36,14 @@ io.on("connection", (socket) => {
   console.log("manu")
 
 
-  socket.on("join", () => {
+  socket.on("join", (userId) => {
     console.log("sandip", startTime);
+    con.query("SELECT amount FROM user where id=?", [userId], function (err, result) {
+      if (!err) {
+        io.to(socket.id).emit("join", { betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
+      }
 
-    io.to(socket.id).emit("join", { betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
-
+    })
   })
 
   io.on("userCurrentBet", ({ userId }) => {
@@ -134,6 +137,7 @@ setInterval(() => {
 
   if (startTime + (1000 * 180) < new Date().getTime()) {
     //check the total
+    startGame = true;
     startTime = new Date().getTime();
     for (let betCategory of Object.keys(userBet)) {
       const result = getMinKeys(betTypes[betCategory]);
@@ -166,13 +170,13 @@ setInterval(() => {
       else {
         console.log(result);
         io.local.emit("result", "refresh");
-        startGame = true;
+
       }
       getLast10Bets()
     })
   }
   else if (startTime + (1000 * 150) < new Date().getTime()) {
-    startTime = false;
+    startGame = false;
   }
 }, 1000);
 
