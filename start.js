@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
         io.to(socket.id).emit("join", { betHistory: result, countDown: (new Date().getTime() - startTime) / 1000 })
       }
       else {
-        io.to(socket.id).emit("join", { msg: "Right now server is not connected try again later!" })
+        io.to(socket.id).emit("error", { msg: "Right now server is not connected try again later!" })
       }
     });
 
@@ -41,16 +41,16 @@ io.on("connection", (socket) => {
     if (startGame) {
       con.query("select * from user where id =? and password =?", [id, password], function (err, result) {
         if (err) {
-          io.to(socket.id).emit("Error:" + err.message());
+          io.to(socket.id).emit("error",{ msg: "Error:" + err.message()});
         }
         else {
           if (result.amount < betAmount) {
-            socket.emit("InSufficient Balance Please Deposit Amount..!")
+            io.to(socket.id).emit("error",{ msg: "InSufficient Balance Please Deposit Amount..!"});
           }
           else {
             con.query("UPDATE customers SET amount =amount-?  where id =? and password =?", [betAmount, id, password], function (err, result) {
               if (err) {
-                socket.emit("Error" + err.message());
+                io.to(socket.id).emit("error",{ msg:"Error" + err.message()});
               }
               else {
                 con.query("SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kraazy' AND TABLE_NAME = 'bet_history'", (err, result) => {
@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
                     con.query("insert into user_bet_history (user_id,amount,select,result,fee,delivery,status,category,bet_history_id) values (?,?,?,?,?,?,?,?,?)",
                       [id, betAmount, betType, -1, commission, 0, 2, betCategory, period], function (err, result) {
                         if (err) {
-                          socket.emit("Error" + err.message());
+                          io.to(socket.id).emit("error",{ msg:"Error" + err.message()});
                         }
                         else {
                           if (betType === "green" || betType === "red" || betType === "blue") {
@@ -106,7 +106,7 @@ io.on("connection", (socket) => {
       );
     }
     else {
-      io.to(socket.id).emit("stopbet", "you can not place any bet")
+      io.to(socket.id).emit("error",{ msg:"you can not place any bet"})
     }
   });
   socket.on("disconnect", async () => {
@@ -145,7 +145,7 @@ io.on("connection", (socket) => {
         }
         else {
           console.log(result);
-          socket.emit(result);
+          io.to(socket.id).emit("result",result)
         }
 
       })
