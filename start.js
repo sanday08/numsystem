@@ -134,7 +134,7 @@ io.on("connection", (socket) => {
 
 });
 setInterval(() => {
-
+  console.log("startGameis", startGame);
   if (startTime + (1000 * 180) < new Date().getTime()) {
     //check the total
     startGame = true;
