@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
                     let period = result[0].AUTO_INCREMENT;
                     let winAmount = 0;
                     let commission = betAmount > 100 ? betAmount * 2 / 100 : 2
-                    con.query("insert into user_bet_history (user_id,amount,select,result,fee,delivery,status,category,bet_history_id) values (?,?,?,?,?,?,?,?,?)",
+                    con.query("insert into user_bet_history ('user_id','amount','select','result','fee','delivery','status','category','bet_history_id') values (?,?,?,?,?,?,?,?,?)",
                       [id, betAmount, betType, -1, commission, 0, 0, betCategory, period], function (err, result) {
                         if (err) {
                           io.to(socket.id).emit("error", { msg: "Error" + err.message });
