@@ -60,7 +60,9 @@ io.on("connection", (socket) => {
     console.log("id:", id, "password:", password, "betType:", betType, "betAmount:", betAmount)
     if (startGame) {
       con.query("select * from user where id =? and pwd =?", [id, password], function (err, result) {
+        console.log("user amount", result);
         if (err || !result.length) {
+
           io.to(socket.id).emit("error", { msg: "Error:" + err.message });
         }
         else {
