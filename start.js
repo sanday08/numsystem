@@ -38,9 +38,9 @@ io.on("connection", (socket) => {
 
   socket.on("join", ({ userId }) => {
     console.log("sandip", startTime);
-    con.query("SELECT amount FROM user where id=?", [userId], function (err, result) {
+    con.query("SELECT * FROM user where id=?", [userId], function (err, result) {
       if (!err) {
-        io.to(socket.id).emit("join", { userBalance: result[0].amount, betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
+        io.to(socket.id).emit("join", { userBalance: result[0] ? result[0].amount : 0, betHistory: last10Bets, countDown: (new Date().getTime() - startTime) / 1000 })
       }
 
     })
@@ -121,7 +121,6 @@ io.on("connection", (socket) => {
                           io.to(socket.id).emit("placeBet", { userBalance: userBalance - betAmount, amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
                         }
                       })
-
                   }
                   else {
                     io.to(socket.id).emit("error", { msg: "Error" + err.message });
