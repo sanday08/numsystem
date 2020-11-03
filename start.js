@@ -103,6 +103,7 @@ io.on("connection", (socket) => {
                               default:
                                 break;
                             }
+
                           }
                           else {
 
@@ -114,8 +115,12 @@ io.on("connection", (socket) => {
 
                         }
                       })
+                    io.to(socket.id).emit("placeBet", { amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
                   }
-                  io.to(socket.id).emit("placeBet", { amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
+                  else {
+                    io.to(socket.id).emit("error", { msg: "Error" + err.message });
+                  }
+
                 })
               }
             })
