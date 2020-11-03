@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
     })
   })
 
-  io.on("userCurrentBet", ({ userId }) => {
+  socket.on("userCurrentBet", ({ userId }) => {
     con.query("SELECT * FROM user_bet_history where user_id =? and status =0", [userId], function (err, result) {
       if (err)
         io.to(socket.id).emit("error", { msg: "Error for get data" })
