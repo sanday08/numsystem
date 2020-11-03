@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
     if (startGame) {
       con.query("select * from user where id =? and password =?", [id, password], function (err, result) {
         if (err) {
-          io.to(socket.id).emit("error", { msg: "Error:" + err.message() });
+          io.to(socket.id).emit("error", { msg: "Error:" + err.message });
         }
         else {
           if (result.amount < betAmount) {
@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
           else {
             con.query("UPDATE customers SET amount =amount-?  where id =? and password =?", [betAmount, id, password], function (err, result) {
               if (err) {
-                io.to(socket.id).emit("error", { msg: "Error" + err.message() });
+                io.to(socket.id).emit("error", { msg: "Error" + err.message });
               }
               else {
                 con.query("SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kraazy' AND TABLE_NAME = 'bet_history'", (err, result) => {
@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
                     con.query("insert into user_bet_history (user_id,amount,select,result,fee,delivery,status,category,bet_history_id) values (?,?,?,?,?,?,?,?,?)",
                       [id, betAmount, betType, -1, commission, 0, 0, betCategory, period], function (err, result) {
                         if (err) {
-                          io.to(socket.id).emit("error", { msg: "Error" + err.message() });
+                          io.to(socket.id).emit("error", { msg: "Error" + err.message });
                         }
                         else {
                           if (betType === "green" || betType === "red" || betType === "blue") {
