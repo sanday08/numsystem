@@ -62,7 +62,6 @@ io.on("connection", (socket) => {
       con.query("select * from user where id =? and pwd =?", [id, password], function (err, result) {
         console.log("user amount", result);
         if (err || !result.length) {
-
           io.to(socket.id).emit("error", { msg: "Error:" + err.message });
         }
         else {
@@ -93,16 +92,26 @@ io.on("connection", (socket) => {
                             switch (betType) {
                               case "green":
                                 winAmount = (betAmount - commission) * 2;
-                                for (let i = 0; i < 5; i++)
-                                  betTypes[betCategory][i] += winAmount;
+                                for (let i = 1; i < 10; i++) {
+                                  if (i % 2 === 1) {
+                                    if (i === 5)
+                                      betTypes[betCategory][i] += winAmount / 2 * 1.5;
+                                    else
+                                      betTypes[betCategory][i] += winAmount;
+                                  }
+                                }
                                 break;
                               case "red":
                                 winAmount = (betAmount - commission) * 2;
-                                for (let i = 5; i < 10; i++)
-                                  betTypes[betCategory][i] += winAmount;
+                                betTypes[betCategory][0] += winAmount / 2 * 1.5;
+                                for (let i = 1; i < 10; i++) {
+                                  if (i % 2 === 0) {
+                                    betTypes[betCategory][i] += winAmount;
+                                  }
+                                }
                                 break;
                               case "blue":
-                                winAmount = (betAmount - commission) * 4
+                                winAmount = (betAmount - commission) * 4.5
                                 betTypes[betCategory][0] += winAmount;
                                 betTypes[betCategory][5] += winAmount;
                                 break;
@@ -118,7 +127,7 @@ io.on("connection", (socket) => {
 
                           }
                           userBet[betCategory].push({ winAmount, betType, id, period })
-                          io.to(socket.id).emit("placeBet", { userBalance: userBalance - betAmount, amount: betAmount, select: betType, status: 0, period, delivery: winAmount })
+                          io.to(socket.id).emit("placeBet", { userBalance: userBalance - betAmount, amount: betAmount - commission, select: betType, status: 0, period, delivery: betAmount - commission })
                         }
                       })
                   }
