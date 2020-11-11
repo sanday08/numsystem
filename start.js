@@ -199,7 +199,7 @@ io.on("connection", (socket) => {
       io.to(socket.id).emit("error", { msg: "you can not place any bet" });
     }
   });
-  socket.on("disconnect", async () => {});
+  socket.on("disconnect", async () => { });
 });
 setInterval(() => {
   console.log("startGameis", startGame);
@@ -212,21 +212,23 @@ setInterval(() => {
       const result = getMinKeys(betTypes[betCategory]);
       const random = Math.floor(Math.random() * result.length);
       randomWinner[betCategory] = result[random];
-      let color = result % 2 === 0 ? "red" : "green";
-      let color2 = "";
-      if (result === 0 || result === 5) color2 = "Violet";
-      let finalResult = result + " " + color + " " + color2;
+
       //Give winner users that amount
       if (userBet[betCategory]) {
+        let finalNo = randomWinner[betCategory];
+        let color = finalNo % 2 === 0 ? "red" : "green";
+        let color2 = "";
+        if (finalNo === 0 || finalNo === 5) color2 = "Violet";
+        let finalResult = finalNo + " " + color + " " + color2;
         console.log("middle Shiroya");
         for (let bet in userBet[betCategory]) {
           console.log("under Shiroya");
-          if (result === 0 || result === 5) {
+          if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
               bet.winAmount = (bet.winAmount * 1.5) / 2;
           }
           if (
-            bet.betType === result ||
+            bet.betType === finalNo ||
             bet.betType === color ||
             bet.betType === color2
           ) {
