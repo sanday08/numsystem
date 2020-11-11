@@ -208,6 +208,7 @@ setInterval(() => {
     startGame = true;
     startTime = new Date().getTime();
     for (let betCategory of Object.keys(userBet)) {
+      console.log("start Shiroya");
       const result = getMinKeys(betTypes[betCategory]);
       const random = Math.floor(Math.random() * result.length);
       randomWinner[betCategory] = result[random];
@@ -217,7 +218,9 @@ setInterval(() => {
       let finalResult = result + " " + color + " " + color2;
       //Give winner users that amount
       if (userBet[betCategory]) {
+        console.log("middle Shiroya");
         for (let bet in userBet[betCategory]) {
+          console.log("under Shiroya");
           if (result === 0 || result === 5) {
             if (bet.betType === "red" || bet.betType === "green")
               bet.winAmount = (bet.winAmount * 1.5) / 2;
@@ -227,6 +230,7 @@ setInterval(() => {
             bet.betType === color ||
             bet.betType === color2
           ) {
+            console.log("finaly koi winner malo");
             con.query(
               `UPDATE user SET amount =amount+?  where id =? `,
               [bet.winAmount, bet.id],
@@ -253,6 +257,7 @@ setInterval(() => {
           }
         }
       } else {
+        console.log("sanday Shiroya");
         con.query(
           `UPDATE user_bet_history SET result = ?,status=? where status=?`,
           [finalResult, 2, 0],
