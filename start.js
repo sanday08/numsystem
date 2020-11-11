@@ -258,20 +258,21 @@ setInterval(() => {
             );
           }
         }
+        console.log("sanday Shiroya");
+        con.query(
+          `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
+          [finalResult, 2, 0, betCategory],
+          function (err, result) {
+            if (err) {
+              io.to(socket.id).emit("error", {
+                msg: "Error" + err.message,
+              });
+            }
+          }
+        );
       }
 
-      console.log("sanday Shiroya");
-      con.query(
-        `UPDATE user_bet_history SET result = ?,status=? where status=?`,
-        [finalResult, 2, 0],
-        function (err, result) {
-          if (err) {
-            io.to(socket.id).emit("error", {
-              msg: "Error" + err.message,
-            });
-          }
-        }
-      );
+
     }
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
