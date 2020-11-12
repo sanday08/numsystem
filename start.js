@@ -87,7 +87,7 @@ io.on("connection", (socket) => {
         function (err, result) {
           console.log("user amount", result);
           if (err || !result.length) {
-            io.to(socket.id).emit("error", { msg: "Error:" + err.message });
+            io.to(socket.id).emit("error", { msg: "Error:" + err.message() });
           } else {
             let userBalance = result[0].amount;
             console.log(userBalance);
