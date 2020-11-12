@@ -263,11 +263,11 @@ setInterval(() => {
                 } else {
                   let data = color2 != "" ? [finalNo, color, color2] : [finalNo, color];
                   console.log("#####################################################################################################", data)
-                  con.query(
+                  let query = con.query(
                     "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and `select` IN (?)",
                     [finalResult, 1, bet.winAmount, bet.id, bet.period, data],
                     function (err, result) {
-                      console.log(query.sql)
+                      console.log("this is the query", query.sql)
                       if (err) {
                         io.local.emit("error", {
                           msg: "Error" + err.message,
