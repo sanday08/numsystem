@@ -220,7 +220,12 @@ setInterval(() => {
         let color2 = "";
         if (finalNo === 0 || finalNo === 5) color2 = "blue";
         let finalResult = finalNo + " " + color + " " + color2;
-        console.log("middle Shiroya", userBet[betCategory]);
+        console.log(
+          "middle Shiroya and ",
+          betCategory,
+          "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",
+          userBet[betCategory]
+        );
 
         for (let bets in userBet[betCategory]) {
           for (let bet in bets)
