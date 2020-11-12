@@ -250,6 +250,13 @@ setInterval(() => {
                         io.to(socket.id).emit("error", {
                           msg: "Error" + err.message,
                         });
+                      } else {
+                        betTypes = {
+                          blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        };
                       }
                     }
                   );
