@@ -220,10 +220,11 @@ setInterval(() => {
         let color2 = "";
         if (finalNo === 0 || finalNo === 5) color2 = "blue";
         let finalResult = finalNo + " " + color + " " + color2;
-        console.log("middle Shiroya", finalNo);
+        console.log("middle Shiroya", userBet[betCategory]);
 
-        for (let bet in userBet[betCategory]) {
-          console.log("################################## bet", bet);
+        for (let bets in userBet[betCategory]) {
+          for (let bet in bets)
+            console.log("################################## bet", bet);
           console.log("under Shiroya");
           if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
