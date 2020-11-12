@@ -262,8 +262,8 @@ setInterval(() => {
                   });
                 } else {
                   con.query(
-                    `UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and select IN (?,?,?)`,
-                    [finalResult, 1, bet.winAmount, bet.id, bet.period, finalNo, color, color2],
+                    `UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and select IN (?,?)`,
+                    [finalResult, 1, bet.winAmount, bet.id, bet.period, finalNo, color],
                     function (err, result) {
                       if (err) {
                         io.local.emit("error", {
