@@ -257,7 +257,7 @@ setInterval(() => {
               [bet.winAmount, bet.id],
               function (err, result) {
                 if (err) {
-                  io.to(socket.id).emit("error", {
+                  io.local.emit("error", {
                     msg: "Error" + err.message,
                   });
                 } else {
@@ -266,7 +266,7 @@ setInterval(() => {
                     [finalResult, 1, bet.winAmount, bet.id, bet.period, finalNo, color, color2],
                     function (err, result) {
                       if (err) {
-                        io.to(socket.id).emit("error", {
+                        io.local.emit("error", {
                           msg: "Error" + err.message,
                         });
                       }
@@ -283,7 +283,7 @@ setInterval(() => {
           [finalResult, 2, 0, betCategory],
           function (err, result) {
             if (err) {
-              io.to(socket.id).emit("error", {
+              io.local.emit("error", {
                 msg: "Error" + err.message,
               });
             } else {
