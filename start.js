@@ -199,10 +199,10 @@ io.on("connection", (socket) => {
       io.to(socket.id).emit("error", { msg: "you can not place any bet" });
     }
   });
-  socket.on("disconnect", async () => { });
+  socket.on("disconnect", async () => {});
 });
 setInterval(() => {
-  console.log("startGameis", startGame);
+  console.log("startGameis", startGame, betTypes);
   if (startTime + 1000 * 180 < new Date().getTime()) {
     //check the total
     startGame = true;
@@ -271,8 +271,6 @@ setInterval(() => {
           }
         );
       }
-
-
     }
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
