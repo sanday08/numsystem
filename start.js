@@ -121,7 +121,7 @@ io.on("connection", (socket) => {
                               betType,
                               -1,
                               commission,
-                              0,
+                              betAmount,
                               0,
                               betCategory,
                               period,
@@ -220,13 +220,24 @@ setInterval(() => {
         let color2 = "";
         if (finalNo === 0 || finalNo === 5) color2 = "blue";
         let finalResult = finalNo + " " + color + " " + color2;
-        console.log("middle Shiroya");
+        console.log("middle Shiroya", finalNo);
         for (let bet in userBet[betCategory]) {
           console.log("under Shiroya");
           if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
               bet.winAmount = (bet.winAmount * 1.5) / 2;
           }
+
+          console.log(
+            "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
+            bet.betType,
+            "%%%******finalNo",
+            finalNo,
+            "%%%%%%% color:",
+            color,
+            "^^^^^^^^^^^^^^^ color2",
+            color2
+          );
           if (
             bet.betType === finalNo ||
             bet.betType === color ||
