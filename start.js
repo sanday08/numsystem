@@ -202,7 +202,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", async () => {});
 });
 setInterval(() => {
-  console.log("startGameis", startGame, betTypes);
+  console.log("startGameis", startGame, betTypes, userBet);
   if (startTime + 1000 * 180 < new Date().getTime()) {
     //check the total
     startGame = true;
