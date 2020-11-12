@@ -136,7 +136,7 @@ io.on("connection", (socket) => {
                                 if (
                                   betType === "green" ||
                                   betType === "red" ||
-                                  betType === "Violet"
+                                  betType === "blue"
                                 ) {
                                   switch (betType) {
                                     case "green":
@@ -152,7 +152,7 @@ io.on("connection", (socket) => {
                                         if (i % 2 === 0)
                                           betTypes[betCategory][i] += winAmount;
                                       break;
-                                    case "Violet":
+                                    case "blue":
                                       winAmount = (betAmount - commission) * 9;
                                       betTypes[betCategory][0] += winAmount;
                                       betTypes[betCategory][5] += winAmount;
@@ -218,7 +218,7 @@ setInterval(() => {
         let finalNo = randomWinner[betCategory];
         let color = finalNo % 2 === 0 ? "red" : "green";
         let color2 = "";
-        if (finalNo === 0 || finalNo === 5) color2 = "Violet";
+        if (finalNo === 0 || finalNo === 5) color2 = "blue";
         let finalResult = finalNo + " " + color + " " + color2;
         console.log("middle Shiroya");
         for (let bet in userBet[betCategory]) {
