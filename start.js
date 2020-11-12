@@ -229,7 +229,7 @@ setInterval(() => {
 
         for (let bets in userBet[betCategory]) {
           for (let bet in bets)
-            console.log("################################## bet", bet);
+            console.log("################################## bet", bet[0]);
           console.log("under Shiroya");
           if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
