@@ -117,11 +117,11 @@ io.on("connection", (socket) => {
                             "INSERT INTO user_bet_history (`user_id`,`amount`,`select`,`result`,`fee`,`delivery`,`status`,`category`,`bet_history_id`) VALUES (?,?,?,?,?,?,?,?,?)",
                             [
                               id,
-                              betAmount - commission,
+                              -betAmount + commission,
                               betType,
                               "",
                               commission,
-                              -betAmount,
+                              betAmount,
                               0,
                               betCategory,
                               period,
