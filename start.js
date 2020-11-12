@@ -121,7 +121,7 @@ io.on("connection", (socket) => {
                               betType,
                               "",
                               commission,
-                              betAmount,
+                              -betAmount,
                               0,
                               betCategory,
                               period,
