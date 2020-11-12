@@ -227,7 +227,7 @@ setInterval(() => {
           userBet[betCategory]
         );
 
-        for (let bets of userBet[betCategory]) {
+        for (let bet of userBet[betCategory]) {
 
           console.log("################################## bet", bet[0]);
           console.log("under Shiroya");
