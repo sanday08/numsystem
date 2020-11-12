@@ -261,7 +261,7 @@ setInterval(() => {
                     msg: "Error" + err.message,
                   });
                 } else {
-                  let data = color2 != "" ? [finalNo, color, color2] : [finalNo, color];
+                  let data = color2 != "" ? [finalNo.toString, color, color2] : [finalNo.toString(), color];
                   console.log("#####################################################################################################", data)
                   let query = con.query(
                     "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and `select` IN (?)",
