@@ -293,6 +293,7 @@ setInterval(() => {
                 sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               };
+              userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
             }
           }
         );
