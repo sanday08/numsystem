@@ -119,7 +119,7 @@ io.on("connection", (socket) => {
                               id,
                               betAmount - commission,
                               betType,
-                              -1,
+                              "",
                               commission,
                               betAmount,
                               0,
@@ -199,7 +199,7 @@ io.on("connection", (socket) => {
       io.to(socket.id).emit("error", { msg: "you can not place any bet" });
     }
   });
-  socket.on("disconnect", async () => {});
+  socket.on("disconnect", async () => { });
 });
 setInterval(() => {
   console.log("startGameis", startGame, betTypes, userBet);
@@ -227,9 +227,9 @@ setInterval(() => {
           userBet[betCategory]
         );
 
-        for (let bets in userBet[betCategory]) {
-          for (let bet in bets)
-            console.log("################################## bet", bet[0]);
+        for (let bets of userBet[betCategory]) {
+
+          console.log("################################## bet", bet[0]);
           console.log("under Shiroya");
           if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
