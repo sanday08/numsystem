@@ -63,6 +63,7 @@ io.on("connection", (socket) => {
       "SELECT * FROM user_bet_history where user_id =? and status =0 ORDER BY created DESC",
       [userId],
       function (err, result) {
+        console.log("**********************************************", result)
         if (err) io.to(socket.id).emit("error", { msg: "Error for get data" });
         else io.to(socket.id).emit("currentBet", { currentBet: result });
       }
