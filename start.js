@@ -217,21 +217,12 @@ setInterval(() => {
 
       //Give winner users that amount
       if (userBet[betCategory]) {
-        let finalNo = randomWinner[betCategory];
-        let color = finalNo % 2 === 0 ? "red" : "green";
-        let color2 = "";
-        if (finalNo === 0 || finalNo === 5) color2 = "blue";
-        let finalResult = finalNo + " " + color + " " + color2;
-        console.log(
-          "middle Shiroya and ",
-          betCategory,
-          "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",
-          userBet[betCategory]
-        );
-
         for (let bet of userBet[betCategory]) {
-
-          console.log("################################## bet", bet[0]);
+          let finalNo = randomWinner[betCategory];
+          let color = finalNo % 2 === 0 ? "red" : "green";
+          let color2 = "";
+          if (finalNo === 0 || finalNo === 5) color2 = "blue";
+          let finalResult = finalNo + " " + color + " " + color2;
           console.log("under Shiroya");
           if (finalNo === 0 || finalNo === 5) {
             if (bet.betType === "red" || bet.betType === "green")
@@ -275,6 +266,19 @@ setInterval(() => {
                           msg: "Error" + err.message,
                         });
                       }
+                      else {
+                        con.query(
+                          `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
+                          [finalResult, 2, 0, betCategory],
+                          function (err, result) {
+                            if (err) {
+                              io.local.emit("error", {
+                                msg: "Error" + err.message,
+                              });
+                            }
+                          }
+                        );
+                      }
                     }
                   );
                 }
@@ -283,25 +287,13 @@ setInterval(() => {
           }
         }
         console.log("sanday Shiroya");
-        con.query(
-          `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
-          [finalResult, 2, 0, betCategory],
-          function (err, result) {
-            if (err) {
-              io.local.emit("error", {
-                msg: "Error" + err.message,
-              });
-            } else {
-              betTypes = {
-                blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              };
-              userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
-            }
-          }
-        );
+        betTypes = {
+          blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        };
+        userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
       }
     }
     con.query(
@@ -338,4 +330,9 @@ function getMinKeys(array) {
     a === min && r.push(i);
     return r;
   }, []);
+}
+
+
+function clearData() {
+
 }
