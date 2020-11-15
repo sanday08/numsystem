@@ -122,7 +122,7 @@ io.on("connection", (socket) => {
                               betType,
                               "",
                               commission,
-                              betAmount,
+                              betAmount - commission,
                               0,
                               betCategory,
                               period,
@@ -166,6 +166,7 @@ io.on("connection", (socket) => {
                                   betTypes[betCategory][betType] += winAmount;
                                 }
                                 userBet[betCategory].push({
+                                  betAmount,
                                   winAmount,
                                   betType,
                                   id,
@@ -266,7 +267,7 @@ setInterval(() => {
                   console.log("#####################################################################################################", data)
                   let query = con.query(
                     "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and `select` IN (?)",
-                    [finalResult, 1, bet.winAmount, bet.id, bet.period, data],
+                    [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, data],
                     function (err, result) {
                       console.log("this is the query", query.sql)
                       if (err) {
