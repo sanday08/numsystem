@@ -166,7 +166,7 @@ io.on("connection", (socket) => {
                                   betTypes[betCategory][betType] += winAmount;
                                 }
                                 userBet[betCategory].push({
-                                  betAmount,
+                                  betAmount: betAmount - commission,
                                   winAmount,
                                   betType,
                                   id,
