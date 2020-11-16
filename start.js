@@ -319,7 +319,7 @@ setInterval(() => {
       bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
     userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
-    let randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
+    randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
   } else if (startTime + 1000 * 150 < new Date().getTime()) {
     console.log("startGame is false");
     startGame = false;
