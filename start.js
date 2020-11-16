@@ -292,13 +292,13 @@ setInterval(() => {
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
       [
-        randomWinner.blurs,
+        randomWinners.blurs,
         Math.floor(Math.random() * 100000) + 100000,
-        randomWinner.parity,
+        randomWinners.parity,
         Math.floor(Math.random() * 10000) + 10000,
-        randomWinner.sapre,
+        randomWinners.sapre,
         Math.floor(Math.random() * 10000) + 10000,
-        randomWinner.bcon,
+        randomWinners.bcon,
         Math.floor(Math.random() * 10000) + 10000,
       ],
       function (err, result) {
