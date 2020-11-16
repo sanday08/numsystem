@@ -250,7 +250,7 @@ setInterval(() => {
             color2
           );
           if (
-            bet.betType === finalNo ||
+            bet.betType == finalNo ||
             bet.betType === color ||
             bet.betType === color2
           ) {
