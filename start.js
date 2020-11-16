@@ -276,19 +276,7 @@ setInterval(() => {
                           msg: "Error" + err.message,
                         });
                       }
-                      else {
-                        con.query(
-                          `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
-                          [finalResult, 2, 0, betCategory],
-                          function (err, result) {
-                            if (err) {
-                              io.local.emit("error", {
-                                msg: "Error" + err.message,
-                              });
-                            }
-                          }
-                        );
-                      }
+
                     }
                   );
                 }
@@ -298,7 +286,22 @@ setInterval(() => {
         }
 
       }
+      con.query(
+        `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
+        [finalResult, 2, 0, betCategory],
+        function (err, result) {
+          if (err) {
+            io.local.emit("error", {
+              msg: "Error" + err.message,
+            });
+          }
+        }
+      );
+
     }
+
+
+
 
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
