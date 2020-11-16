@@ -214,21 +214,20 @@ setInterval(() => {
       const result = getMinKeys(betTypes[betCategory]);
       const random = Math.floor(Math.random() * result.length);
       randomWinner[betCategory] = result[random];
+      let finalNo = randomWinner[betCategory];
+      let color = finalNo % 2 === 0 ? "red" : "green";
+      let color2 = "";
+      if (finalNo === 0 || finalNo === 5) color2 = "blue";
+      let finalResult = finalNo + " " + color + " " + color2;
+      console.log("under Shiroya");
+      if (finalNo === 0 || finalNo === 5) {
+        if (bet.betType === "red" || bet.betType === "green")
+          bet.winAmount = (bet.winAmount * 1.5) / 2;
+      }
 
       //Give winner users that amount
       if (userBet[betCategory]) {
         for (let bet of userBet[betCategory]) {
-          let finalNo = randomWinner[betCategory];
-          let color = finalNo % 2 === 0 ? "red" : "green";
-          let color2 = "";
-          if (finalNo === 0 || finalNo === 5) color2 = "blue";
-          let finalResult = finalNo + " " + color + " " + color2;
-          console.log("under Shiroya");
-          if (finalNo === 0 || finalNo === 5) {
-            if (bet.betType === "red" || bet.betType === "green")
-              bet.winAmount = (bet.winAmount * 1.5) / 2;
-          }
-
           console.log(
             "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
             bet.betType,
@@ -286,16 +285,10 @@ setInterval(() => {
             );
           }
         }
-        console.log("sanday Shiroya");
-        betTypes = {
-          blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        };
-        userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
+
       }
     }
+
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
       [
@@ -318,6 +311,15 @@ setInterval(() => {
         getLast10Bets();
       }
     );
+    console.log("sanday Shiroya");
+    betTypes = {
+      blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    };
+    userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
+    let randomWinner = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
   } else if (startTime + 1000 * 150 < new Date().getTime()) {
     console.log("startGame is false");
     startGame = false;
