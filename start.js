@@ -17,7 +17,7 @@ let betTypes = {
 };
 let startGame = true;
 let startTime = new Date().getTime();
-let randomWinner = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
+let randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
 let userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
 //userId,betAmount,betType
 let last10Bets = [];
@@ -210,11 +210,11 @@ setInterval(() => {
     startGame = true;
     startTime = new Date().getTime();
     for (let betCategory of Object.keys(userBet)) {
-      console.log("start Shiroya");
+      console.log("start Shiroya bet cateGory is", betCategory);
       const result = getMinKeys(betTypes[betCategory]);
       const random = Math.floor(Math.random() * result.length);
-      randomWinner[betCategory] = result[random];
-      let finalNo = randomWinner[betCategory];
+      randomWinners[betCategory] = result[random];
+      let finalNo = randomWinners[betCategory];
       let color = finalNo % 2 === 0 ? "red" : "green";
       let color2 = "";
       if (finalNo === 0 || finalNo === 5) color2 = "blue";
@@ -319,7 +319,7 @@ setInterval(() => {
       bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
     userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
-    let randomWinner = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
+    let randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
   } else if (startTime + 1000 * 150 < new Date().getTime()) {
     console.log("startGame is false");
     startGame = false;
