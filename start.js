@@ -267,7 +267,7 @@ setInterval(() => {
                   let data = color2 != "" ? [finalNo.toString(), color, color2] : [finalNo.toString(), color];
                   console.log("#####################################################################################################", data)
                   let query = con.query(
-                    "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and recordId=? and `select` IN (?)",
+                    "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and id=? and `select` IN (?)",
                     [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],
                     function (err, result) {
                       console.log("this is the query", query.sql)
