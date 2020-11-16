@@ -142,19 +142,26 @@ io.on("connection", (socket) => {
                                   switch (betType) {
                                     case "green":
                                       winAmount = (betAmount - commission) * 2;
-                                      for (let i = 0; i < 10; i++)
-                                        if (i % 2 === 1) {
+                                      for (let i = 0; i < 10; i++) {
+                                        if (i === 5) {
+                                          betTypes[betCategory][i] += winAmount * 1.5 / 2;
+                                        }
+                                        else if (i % 2 === 1) {
                                           betTypes[betCategory][i] += winAmount;
                                         }
+                                      }
                                       break;
                                     case "red":
                                       winAmount = (betAmount - commission) * 2;
-                                      for (let i = 1; i < 10; i++)
-                                        if (i % 2 === 0)
+                                      for (let i = 0; i < 10; i++) {
+                                        if (i === 0)
+                                          betTypes[betCategory][i] += winAmount * 1.5 / 2;
+                                        else if (i % 2 === 0)
                                           betTypes[betCategory][i] += winAmount;
+                                      }
                                       break;
                                     case "blue":
-                                      winAmount = (betAmount - commission) * 9;
+                                      winAmount = (betAmount - commission) * 4.5;
                                       betTypes[betCategory][0] += winAmount;
                                       betTypes[betCategory][5] += winAmount;
                                       break;
@@ -204,7 +211,9 @@ io.on("connection", (socket) => {
   socket.on("disconnect", async () => { });
 });
 setInterval(() => {
+  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
   console.log("startGameis", startGame, betTypes, userBet);
+  console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
   if (startTime + 1000 * 180 < new Date().getTime()) {
     //check the total
     startGame = true;
