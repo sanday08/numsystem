@@ -219,15 +219,16 @@ setInterval(() => {
       let color2 = "";
       if (finalNo === 0 || finalNo === 5) color2 = "blue";
       let finalResult = finalNo + " " + color + " " + color2;
-      console.log("under Shiroya");
-      if (finalNo === 0 || finalNo === 5) {
-        if (bet.betType === "red" || bet.betType === "green")
-          bet.winAmount = (bet.winAmount * 1.5) / 2;
-      }
+
 
       //Give winner users that amount
       if (userBet[betCategory]) {
         for (let bet of userBet[betCategory]) {
+          console.log("under Shiroya");
+          if (finalNo === 0 || finalNo === 5) {
+            if (bet.betType === "red" || bet.betType === "green")
+              bet.winAmount = (bet.winAmount * 1.5) / 2;
+          }
           console.log(
             "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
             bet.betType,
