@@ -268,7 +268,7 @@ setInterval(() => {
                   console.log("#####################################################################################################", data)
                   let query = con.query(
                     "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and recordId=? and `select` IN (?)",
-                    [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, recordId, data],
+                    [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],
                     function (err, result) {
                       console.log("this is the query", query.sql)
                       if (err) {
