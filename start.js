@@ -344,7 +344,7 @@ setInterval(() => {
         userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
         randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
 
-
+        con.query("UPDATE set_number SET Blurs =-1, Parity=-1,Sapre=-1,Bcon=-1");
 
       }
     });
