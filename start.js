@@ -227,7 +227,7 @@ setInterval(() => {
         randomWinners.blurs = result[0].Blurs;
         randomWinners.parity = result[0].Parity;
         randomWinners.sapre = result[0].Sapre;
-        randomWinners.bcon = result[0].Bcon;
+        randomWinners.bcon = result[0].Bcone;
         for (let betCategory of Object.keys(userBet)) {
           if (randomWinners[betCategory] == -1) {
             const result = getMinKeys(betTypes[betCategory]);
