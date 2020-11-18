@@ -311,6 +311,7 @@ setInterval(() => {
 
         }
 
+        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$:", randomWinners.blurs, "parity:", randomWinners.parity, "sapre:", randomWinners.sapre, "bcon:", randomWinners.bcon)
         con.query(
           "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
           [
