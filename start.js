@@ -223,7 +223,7 @@ setInterval(() => {
       if (err)
         console.log(err);
       else {
-        console.log(result[0], "data is a", result[0].blurs);
+        console.log(result[0], "data is a", result[0].Blurs);
         randomWinners.blurs = result[0].Blurs;
         randomWinners.parity = result[0].Parity;
         randomWinners.sapre = result[0].Sapre;
