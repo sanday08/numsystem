@@ -224,10 +224,10 @@ setInterval(() => {
         console.log(err);
       else {
         console.log(result[0], "data is a", result[0].blurs);
-        randomWinners.blurs = result[0].blurs;
-        randomWinners.parity = result[0].parity;
-        randomWinners.sapre = result[0].sapre;
-        randomWinners.bcon = result[0].bcon;
+        randomWinners.blurs = result[0].Blurs;
+        randomWinners.parity = result[0].Parity;
+        randomWinners.sapre = result[0].Sapre;
+        randomWinners.bcon = result[0].Bcon;
         for (let betCategory of Object.keys(userBet)) {
           if (randomWinners[betCategory] == -1) {
             const result = getMinKeys(betTypes[betCategory]);
