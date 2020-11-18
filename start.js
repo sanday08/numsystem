@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
       "SELECT * FROM user_bet_history where user_id =? and status =0 ORDER BY created DESC",
       [userId],
       function (err, result) {
-        console.log("**********************************************", result)
+
         if (err) io.to(socket.id).emit("error", { msg: "Error for get data" });
         else io.to(socket.id).emit("currentBet", { currentBet: result });
       }
@@ -219,90 +219,99 @@ setInterval(() => {
     //check the total
     startGame = true;
     startTime = new Date().getTime();
-    for (let betCategory of Object.keys(userBet)) {
-      console.log("start Shiroya bet cateGory is", betCategory);
-      const result = getMinKeys(betTypes[betCategory]);
-      const random = Math.floor(Math.random() * result.length);
-      randomWinners[betCategory] = result[random];
-      let finalNo = randomWinners[betCategory];
-      let color = finalNo % 2 === 0 ? "red" : "green";
-      let color2 = "";
-      if (finalNo === 0 || finalNo === 5) color2 = "blue";
-      let finalResult = finalNo + " " + color + " " + color2;
-
-
-      //Give winner users that amount
-      if (userBet[betCategory]) {
-        for (let bet of userBet[betCategory]) {
-          console.log("under Shiroya");
-          if (finalNo === 0 || finalNo === 5) {
-            if (bet.betType === "red" || bet.betType === "green")
-              bet.winAmount = (bet.winAmount * 1.5) / 2;
+    con.query("SELECT * FROM set_number", function (err, result) {
+      if (err)
+        console.log(err);
+      else {
+        console.log(result[0]);
+        randomWinners.blurs = result[0].blurs;
+        randomWinners.parity = result[0].parity;
+        randomWinners.sapre = result[0].sapre;
+        randomWinners.bcon = result[0].bcon;
+        for (let betCategory of Object.keys(userBet)) {
+          if (randomWinners[betCategory] == -1) {
+            const result = getMinKeys(betTypes[betCategory]);
+            const random = Math.floor(Math.random() * result.length);
+            randomWinners[betCategory] = result[random];
           }
-          console.log(
-            "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
-            bet.betType,
-            "%%%******finalNo",
-            finalNo,
-            "%%%%%%% color:",
-            color,
-            "^^^^^^^^^^^^^^^ color2",
-            color2
-          );
-          if (
-            bet.betType == finalNo ||
-            bet.betType === color ||
-            bet.betType === color2
-          ) {
-            console.log("finaly koi winner malo");
-            con.query(
-              `UPDATE user SET amount =amount+?  where id =? `,
-              [bet.winAmount, bet.id],
-              function (err, result) {
-                if (err) {
-                  io.local.emit("error", {
-                    msg: "Error" + err.message,
-                  });
-                } else {
-                  let data = color2 != "" ? [finalNo.toString(), color, color2] : [finalNo.toString(), color];
-                  console.log("#####################################################################################################", data)
-                  let query = con.query(
-                    "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and id=? and `select` IN (?)",
-                    [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],
-                    function (err, result) {
-                      console.log("this is the query", query.sql)
-                      if (err) {
-                        io.local.emit("error", {
-                          msg: "Error" + err.message,
-                        });
-                      }
+          let finalNo = randomWinners[betCategory];
+          let color = finalNo % 2 === 0 ? "red" : "green";
+          let color2 = "";
+          if (finalNo === 0 || finalNo === 5) color2 = "blue";
+          let finalResult = finalNo + " " + color + " " + color2;
 
-                    }
-                  );
-                }
+
+          //Give winner users that amount
+          if (userBet[betCategory]) {
+            for (let bet of userBet[betCategory]) {
+
+              if (finalNo === 0 || finalNo === 5) {
+                if (bet.betType === "red" || bet.betType === "green")
+                  bet.winAmount = (bet.winAmount * 1.5) / 2;
               }
-            );
-          }
-        }
+              console.log(
+                "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
+                bet.betType,
+                "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& betCategory:", betCategory,
+                "%%%******finalNo",
+                finalNo,
+                "%%%%%%% color:",
+                color,
+                "^^^^^^^^^^^^^^^ color2",
+                color2
+              );
+              if (
+                bet.betType == finalNo ||
+                bet.betType === color ||
+                bet.betType === color2
+              ) {
+                console.log("finaly koi winner malo");
+                con.query(
+                  `UPDATE user SET amount =amount+?  where id =? `,
+                  [bet.winAmount, bet.id],
+                  function (err, result) {
+                    if (err) {
+                      io.local.emit("error", {
+                        msg: "Error" + err.message,
+                      });
+                    } else {
+                      let data = color2 != "" ? [finalNo.toString(), color, color2] : [finalNo.toString(), color];
+                      console.log("#####################################################################################################", data)
+                      let query = con.query(
+                        "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and id=? and `select` IN (?)",
+                        [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],
+                        function (err, result) {
+                          console.log("this is the query", query.sql)
+                          if (err) {
+                            io.local.emit("error", {
+                              msg: "Error" + err.message,
+                            });
+                          }
 
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+            }
+
+          }
+          con.query(
+            `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
+            [finalResult, 2, 0, betCategory],
+            function (err, result) {
+              if (err) {
+                io.local.emit("error", {
+                  msg: "Error" + err.message,
+                });
+              }
+            }
+          );
+
+        }
       }
-      con.query(
-        `UPDATE user_bet_history SET result = ?,status=? where status=? and category=?`,
-        [finalResult, 2, 0, betCategory],
-        function (err, result) {
-          if (err) {
-            io.local.emit("error", {
-              msg: "Error" + err.message,
-            });
-          }
-        }
-      );
-
-    }
-
-
-
-
+    });
     con.query(
       "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
       [
