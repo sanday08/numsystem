@@ -2,13 +2,13 @@ var mysql = require('mysql');
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "kraazy",
+  user: "win123",
+  password: "Win24",
+  database: "win24",
   multipleStatements: true
 });
 
-con.connect(function(err) {
+con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 
@@ -17,4 +17,4 @@ con.connect(function(err) {
 
 con.end();
 
-module.exports=con
+module.exports = con
