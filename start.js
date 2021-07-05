@@ -4,9 +4,9 @@ var mysql = require("mysql");
 
 var con = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "Sanday@89",
-  database: "kraazy",
+  user: "win123",
+  password: "Win24",
+  database: "win24",
   multipleStatements: true,
 });
 let betTypes = {
