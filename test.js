@@ -1,15 +1,16 @@
-// var array = [1, 2, 1, 4, 1,1, 8, 9, 1,14];
+var numArray = [140000, 104, 99];
 
-// function getMinKeys(array) {
-//     var min = Math.min.apply(Math, array);
-//     return array.reduce(function (r, a, i) {
-//         a === min && r.push(i);
-//         return r;
-//     }, []);   
-// }
-// const result=getMinKeys(array);
-// const random = Math.floor(Math.random() * result.length);
-// console.log(result[random]);
-// console.log(getMinKeys(array));
+sortData = (numArray) => {
+    let a = [...numArray]
+    a.sort(function (a, b) {
+        return a - b;
+    });
 
-console.log(Math.floor(Math.random() * 100000) + 100000)
+    console.log(a);
+
+}
+
+
+sortData(numArray);
+
+console.log(numArray);

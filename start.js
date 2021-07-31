@@ -1,12 +1,12 @@
 const { io } = require("./server");
 
 var mysql = require("mysql");
-
+var adminPer = 80;
 var con = mysql.createConnection({
   host: "localhost",
-  user: "win123",
-  password: "Win24",
-  database: "win24",
+  user: "sky",
+  password: "skyRummy123",
+  database: "skyBlue",
   multipleStatements: true,
 });
 let betTypes = {
@@ -21,7 +21,7 @@ let randomWinners = { blurs: -1, parity: -1, sapre: -1, bcon: -1 };
 let userBet = { blurs: [], parity: [], sapre: [], bcon: [] };
 //userId,betAmount,betType
 let last10Bets = [];
-
+let adminBalance = { blurs: 0, parity: 0, sapre: 0, bcon: 0 };
 function getLast10Bets() {
   con.query(
     "SELECT * FROM bet_history ORDER BY created DESC LIMIT 10",
@@ -114,6 +114,8 @@ io.on("connection", (socket) => {
                           let winAmount = 0;
                           let commission =
                             betAmount > 100 ? (betAmount * 2) / 100 : 2;
+
+                          adminBalance[betCategory] = (betAmount - commission) * adminPer / 100;
                           con.query(
                             "INSERT INTO user_bet_history (`user_id`,`amount`,`select`,`result`,`fee`,`delivery`,`status`,`category`,`bet_history_id`) VALUES (?,?,?,?,?,?,?,?,?)",
                             [
@@ -228,9 +230,8 @@ setInterval(() => {
         randomWinners.bcon = result[0].Bcone;
         for (let betCategory of Object.keys(userBet)) {
           if (randomWinners[betCategory] == -1) {
-            const result = getMinKeys(betTypes[betCategory]);
-            const random = Math.floor(Math.random() * result.length);
-            randomWinners[betCategory] = result[random];
+            const result = getResult(betTypes[betCategory], betCategory);
+            randomWinners[betCategory] = result;
           }
           let finalNo = randomWinners[betCategory];
           let color = finalNo % 2 === 0 ? "red" : "green";
@@ -351,14 +352,39 @@ setInterval(() => {
     console.log("startGame is false");
     startGame = false;
   }
+  if (new Date().getMinutes() == 1 && new Date().getSeconds() < 2) {
+    letData = "select * from adminPer where id==1"
+    adminPer = letData[0].percent;
+  }
 }, 1000);
 
-function getMinKeys(array) {
-  var min = Math.min.apply(Math, array);
-  return array.reduce(function (r, a, i) {
-    a === min && r.push(i);
-    return r;
-  }, []);
+function getResult(array, betCategory) {
+  let sortData = [...array]
+  sortData.sort((a, b) => a - b);
+  let data = -1;
+  for (i = 0; i <= 10; i++) {
+    if (sortData[i] > adminBalance[betCategory]) {
+      if (i == 0) {
+        data = sortData[i];
+        break;
+      }
+      else {
+        data = sortData[i - 1];
+        break;
+      }
+    }
+  }
+  if (data = -1) {
+    if (sortData[9] == 0)
+      return Math.floor(Math.random() * 9) + 1;
+    else
+      data = sortData[9];
+  }
+  for (i = 0; i < 10; i++) {
+    if (data == array[i])
+      return i;
+  }
+
 }
 
 
