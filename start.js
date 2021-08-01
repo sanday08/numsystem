@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
                     });
                   } else {
                     con.query(
-                      "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'kraazy' AND TABLE_NAME = 'bet_history'",
+                      "SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'skyBlue' AND TABLE_NAME = 'bet_history'",
                       (err, result) => {
                         if (!err) {
                           let period = result[0].AUTO_INCREMENT;
