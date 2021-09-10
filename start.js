@@ -374,7 +374,7 @@ function getResult(array, betCategory) {
       }
     }
   }
-  if (data = -1) {
+  if (data == -1) {
     if (sortData[9] == 0)
       return Math.floor(Math.random() * 9) + 1;
     else
@@ -384,10 +384,6 @@ function getResult(array, betCategory) {
     if (data == array[i])
       return i;
   }
-
 }
 
 
-function clearData() {
-
-}
