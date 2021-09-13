@@ -362,7 +362,7 @@ function getResult(array, betCategory) {
   let sortData = [...array]
   sortData.sort((a, b) => a - b);
   let data = -1;
-  for (i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 10; i++) {
     if (sortData[i] > adminBalance[betCategory]) {
       if (i == 0) {
         data = sortData[i];
@@ -380,10 +380,11 @@ function getResult(array, betCategory) {
     else
       data = sortData[9];
   }
-  for (i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     if (data == array[i])
       return i;
   }
 }
 
 
+//8460522251   
