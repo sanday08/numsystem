@@ -116,6 +116,7 @@ io.on("connection", (socket) => {
                             betAmount > 100 ? (betAmount * 2) / 100 : 2;
 
                           adminBalance[betCategory] = (betAmount - commission) * adminPer / 100;
+                          console.log("@@@@@@@@@@@@@@@@@@@@@@@ ADMIN BALANCE IS @@@@@@@@@@@@@@@@@@@@@", adminBalance);
                           con.query(
                             "INSERT INTO user_bet_history (`user_id`,`amount`,`select`,`result`,`fee`,`delivery`,`status`,`category`,`bet_history_id`) VALUES (?,?,?,?,?,?,?,?,?)",
                             [
