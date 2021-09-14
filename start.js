@@ -239,7 +239,10 @@ setInterval(() => {
           let color2 = "";
           if (finalNo === 0 || finalNo === 5) color2 = "violet";
           let finalResult = finalNo + " " + color + " " + color2;
-
+          console.log("Payed Amount is", betTypes[betCategory][result])
+          if (betTypes[betCategory][result] != 0) {
+            adminBalance[betCategory] -= betTypes[betCategory][result];
+          }
 
           //Give winner users that amount
           if (userBet[betCategory]) {
