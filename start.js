@@ -347,7 +347,8 @@ setInterval(() => {
   }
   if (new Date().getMinutes() == 1 && new Date().getSeconds() < 2) {
     letData = "select * from adminPer where id==1"
-    adminPer = letData[0].percent;
+    console.log("Change huva Admin Percent", letData);
+    adminPer = parseInt(letData[0].percent);
   }
 }, 1000);
 
