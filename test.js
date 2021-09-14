@@ -6,4 +6,4 @@ let betTypes = {
 };
 
 
-console.log(betTypes["blurs"][8])
+console.log(betTypes["blurs"][8].toString().toLowerCase())

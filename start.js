@@ -140,7 +140,7 @@ io.on("connection", (socket) => {
                                 if (
                                   betType === "green" ||
                                   betType === "red" ||
-                                  betType === "violet"
+                                  betType === "Violet"
                                 ) {
                                   switch (betType) {
                                     case "green":
@@ -163,7 +163,7 @@ io.on("connection", (socket) => {
                                           betTypes[betCategory][i] += winAmount;
                                       }
                                       break;
-                                    case "violet":
+                                    case "Violet":
                                       winAmount = (betAmount - commission) * 4.5;
                                       betTypes[betCategory][0] += winAmount;
                                       betTypes[betCategory][5] += winAmount;
@@ -237,11 +237,11 @@ setInterval(() => {
           let finalNo = randomWinners[betCategory];
           let color = finalNo % 2 === 0 ? "red" : "green";
           let color2 = "";
-          if (finalNo === 0 || finalNo === 5) color2 = "violet";
+          if (finalNo === 0 || finalNo === 5) color2 = "Violet";
           let finalResult = finalNo + " " + color + " " + color2;
-          console.log("Payed Amount is", betTypes[betCategory][result], betTypes[betCategory], result, betCategory)
-          if (betTypes[betCategory][result] != undefined) {
-            adminBalance[betCategory] -= betTypes[betCategory][result];
+          console.log("Payed Amount is", betTypes[betCategory][randomWinners[betCategory]], betTypes[betCategory], randomWinners[betCategory], betCategory)
+          if (betTypes[betCategory][randomWinners[betCategory]] != undefined) {
+            adminBalance[betCategory] -= betTypes[betCategory][randomWinners[betCategory]];
           }
 
           //Give winner users that amount
