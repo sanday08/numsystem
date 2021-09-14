@@ -40,10 +40,10 @@ function getLast10Bets() {
 getLast10Bets();
 
 io.on("connection", (socket) => {
-  console.log("manu");
+
 
   socket.on("join", ({ userId }) => {
-    console.log("sandip", startTime);
+
     con.query("SELECT * FROM user where id=?", [userId], function (
       err,
       result
@@ -239,8 +239,8 @@ setInterval(() => {
           let color2 = "";
           if (finalNo === 0 || finalNo === 5) color2 = "violet";
           let finalResult = finalNo + " " + color + " " + color2;
-          console.log("Payed Amount is", betTypes[betCategory][result])
-          if (betTypes[betCategory][result] != 0) {
+          console.log("Payed Amount is", betTypes[betCategory][result], betTypes[betCategory], result, betCategory)
+          if (betTypes[betCategory][result] != undefined) {
             adminBalance[betCategory] -= betTypes[betCategory][result];
           }
 
@@ -269,7 +269,6 @@ setInterval(() => {
                       });
                     } else {
                       let data = color2 != "" ? [finalNo.toString(), color, color2] : [finalNo.toString(), color];
-                      console.log("#####################################################################################################", data)
                       let query = con.query(
                         "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and id=? and `select` IN (?)",
                         [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],

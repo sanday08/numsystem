@@ -1,40 +1,9 @@
-
-let adminBalance = { parity: 450 };
-
-function getResult(array, betCategory) {
-    let sortData = [...array]
-    sortData.sort((a, b) => a - b);
-    let data = -1;
-    console.log(sortData)
-    console.log(adminBalance[betCategory])
-    for (i = 0; i <= 10; i++) {
-        console.log(sortData[i] > adminBalance[betCategory], sortData[i], adminBalance[betCategory])
-        if (sortData[i] > adminBalance[betCategory]) {
-
-            if (i == 0) {
-                data = sortData[i];
-                break;
-            }
-            else {
-                data = sortData[i - 1];
-                break;
-            }
-        }
-    }
-    console.log("data is ", data);
-    if (data = -1) {
-        if (sortData[9] == 0)
-            return Math.floor(Math.random() * 9) + 1;
-        else
-            data = sortData[9];
-    }
-    console.log(data)
-    for (i = 0; i < 10; i++) {
-        if (data == array[i]) {
-            return i;
-        }
-    }
-}
+let betTypes = {
+    blurs: [0, 0, 0, 0, 0, 0, 0, 0, 455, 0],
+    parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    sapre: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    bcon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+};
 
 
-console.log(getResult([0, 32, 234, 0, 411, 123423, 0, 0, 0], "parity"));
+console.log(betTypes["blurs"][8])
