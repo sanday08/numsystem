@@ -224,7 +224,7 @@ setInterval(() => {
       if (err)
         console.log(err);
       else {
-        console.log(result[0], "data is a", result[0].Blurs);
+
         randomWinners.blurs = result[0].Blurs;
         randomWinners.parity = result[0].Parity;
         randomWinners.sapre = result[0].Sapre;
@@ -249,23 +249,13 @@ setInterval(() => {
                 if (bet.betType === "red" || bet.betType === "green")
                   bet.winAmount = (bet.winAmount * 1.5) / 2;
               }
-              console.log(
-                "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ BEt Type: ",
-                bet.betType,
-                "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& betCategory:", betCategory,
-                "%%%******finalNo",
-                finalNo,
-                "%%%%%%% color:",
-                color,
-                "^^^^^^^^^^^^^^^ color2",
-                color2
-              );
+
               if (
                 bet.betType == finalNo ||
                 bet.betType === color ||
                 bet.betType === color2
               ) {
-                console.log("finaly koi winner malo");
+
                 con.query(
                   `UPDATE user SET amount =amount+?  where id =? `,
                   [bet.winAmount, bet.id],
@@ -281,7 +271,7 @@ setInterval(() => {
                         "UPDATE user_bet_history SET result = ?,status=?,amount=? where user_id=? and bet_history_id=? and id=? and `select` IN (?)",
                         [finalResult, 1, bet.winAmount - bet.betAmount, bet.id, bet.period, bet.recordId, data],
                         function (err, result) {
-                          console.log("this is the query", query.sql)
+
                           if (err) {
                             io.local.emit("error", {
                               msg: "Error" + err.message,
@@ -311,7 +301,7 @@ setInterval(() => {
 
         }
 
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$:", randomWinners.blurs, "parity:", randomWinners.parity, "sapre:", randomWinners.sapre, "bcon:", randomWinners.bcon)
+
         con.query(
           "insert into bet_history (blurs_no,blurs_price,parity_no,parity_price,sapre_no,sapre_price,bcon_no,bcon_price) values (?, ?, ?, ?, ?, ?, ?, ?)",
           [
@@ -328,13 +318,13 @@ setInterval(() => {
             if (err) {
               console.log(err);
             } else {
-              console.log(result);
+
               io.local.emit("result", "refresh");
             }
             getLast10Bets();
           }
         );
-        console.log("sanday Shiroya");
+
         betTypes = {
           blurs: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
           parity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -350,7 +340,7 @@ setInterval(() => {
     });
 
   } else if (startTime + 1000 * 150 < new Date().getTime()) {
-    console.log("startGame is false");
+
     startGame = false;
   }
   if (new Date().getMinutes() == 1 && new Date().getSeconds() < 2) {
