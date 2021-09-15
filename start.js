@@ -79,7 +79,9 @@ io.on("connection", (socket) => {
       "betType:",
       betType,
       "betAmount:",
-      betAmount
+      betAmount,
+      "betCategory : ",
+      betCategory
     );
     if (startGame) {
       con.query(
