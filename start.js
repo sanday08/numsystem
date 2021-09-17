@@ -142,7 +142,7 @@ io.on("connection", (socket) => {
                                 if (
                                   betType === "green" ||
                                   betType === "red" ||
-                                  betType === "Violet"
+                                  betType === "violet"
                                 ) {
                                   switch (betType) {
                                     case "green":
@@ -165,7 +165,7 @@ io.on("connection", (socket) => {
                                           betTypes[betCategory][i] += winAmount;
                                       }
                                       break;
-                                    case "Violet":
+                                    case "violet":
                                       winAmount = (betAmount - commission) * 4.5;
                                       betTypes[betCategory][0] += winAmount;
                                       betTypes[betCategory][5] += winAmount;
@@ -239,7 +239,7 @@ setInterval(() => {
           let finalNo = randomWinners[betCategory];
           let color = finalNo % 2 === 0 ? "red" : "green";
           let color2 = "";
-          if (finalNo === 0 || finalNo === 5) color2 = "Violet";
+          if (finalNo === 0 || finalNo === 5) color2 = "violet";
           let finalResult = finalNo + " " + color + " " + color2;
           console.log("Payed Amount is", betTypes[betCategory][randomWinners[betCategory]], betTypes[betCategory], randomWinners[betCategory], betCategory)
           if (betTypes[betCategory][randomWinners[betCategory]] != undefined) {
