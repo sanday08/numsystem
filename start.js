@@ -348,9 +348,9 @@ setInterval(() => {
 
     startGame = false;
   }
-  if (new Date().getMinutes() == 7 && new Date().getSeconds() < 2) {
+  if (new Date().getMinutes() == 8 && new Date().getSeconds() < 2) {
 
-    con.query("select * from adminPer where id==1", function (err, result) {
+    con.query("select * from adminPer where id=1", function (err, result) {
       if (err) {
         console.log(err);
       } else {
