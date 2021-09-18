@@ -349,10 +349,18 @@ setInterval(() => {
     startGame = false;
   }
   if (new Date().getMinutes() == 1 && new Date().getSeconds() < 2) {
-    letData = "select * from adminPer where id==1"
-    console.log("Change huva Admin Percent", letData);
-    adminPer = parseInt(letData[0].percent);
-    console.log("new admin perchent is", adminPer);
+
+    con.query("select * from adminPer where id==1", function (err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+
+        console.log("Change huva Admin Percent", result);
+        adminPer = parseInt(result[0].percent);
+        console.log("new admin perchent is", adminPer);
+      }
+    })
+
   }
 }, 1000);
 
