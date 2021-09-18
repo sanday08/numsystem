@@ -1,7 +1,7 @@
 const { io } = require("./server");
 
 var mysql = require("mysql");
-var adminPer = 80;
+var adminPer = 30;
 var con = mysql.createConnection({
   host: "localhost",
   user: "sky",
@@ -83,6 +83,7 @@ io.on("connection", (socket) => {
       "betCategory : ",
       betCategory
     );
+    betAmount = parseInt(betAmount);
     if (startGame) {
       con.query(
         "select * from user where id =? and pwd =?",
@@ -94,7 +95,7 @@ io.on("connection", (socket) => {
           } else {
             let userBalance = result[0].amount;
             console.log(userBalance);
-            if (userBalance < betAmount) {
+            if (userBalance < betAmount && betAmount != 0) {
               io.to(socket.id).emit("error", {
                 msg: "InSufficient Balance Please Deposit Amount..!",
               });
@@ -351,6 +352,7 @@ setInterval(() => {
     letData = "select * from adminPer where id==1"
     console.log("Change huva Admin Percent", letData);
     adminPer = parseInt(letData[0].percent);
+    console.log("new admin perchent is", adminPer);
   }
 }, 1000);
 
