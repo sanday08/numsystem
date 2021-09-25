@@ -386,6 +386,13 @@ function getResult(array, betCategory) {
     else
       data = sortData[9];
   }
+
+  if (data == 0)
+    while (true) {
+      let finalNum = Math.floor(Math.random() * 10);
+      if (array[finalNum] == 0)
+        return finalNum;
+    }
   for (let i = 0; i < 10; i++) {
     if (data == array[i])
       return i;
