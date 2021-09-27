@@ -1,6 +1,6 @@
-let sortData = [0, 55, 0, 0, 45, 0, 0, 42, 45, 54, 55, 84]
+let sortData = [0, 16, 0, 16, 0, 12, 0, 16, 0, 16]
 
-let adminBalance = 50;
+let adminBalance = 7.2;
 
 console.log(getResult(sortData))
 function getResult(array) {
